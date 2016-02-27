@@ -17,12 +17,14 @@ It is often desirable for a property to have a default state. The word `default`
 
 ```swift
 enum Behaviour {
-	case `default`
-	case edgeCase
+  case `default`
+  case edgeCase
 }
 ```
 
-`default`'s sole meaning as a keyword in Swift is to signify the non-matching case in a switch statement, ensuring all cases are handled. This is a carryover from C; Swift-style switch statements match patterns and have where clauses, and behave more like a series of if-else-if conditionals than a mapping of value to case. As a result, `default` has a synonym in Swift, `case _`, which Swift also recognises as matching any switched expression. As a result, `default`'s meaning as a keyword is redundant, and should be deprecated as a keyword to free its use for other purposes.
+`default`'s sole meaning as a keyword in Swift is to signify the non-matching case in a switch statement, ensuring all cases are handled. This is a carryover from C; Swift-style switch statements match patterns and have where clauses, and behave more like a series of if-else-if conditionals than a mapping of value to case.
+
+Additionally, `default` has a synonym in Swift, `case _`, which Swift also recognises as matching any switched expression. As a result, `default`'s meaning as a keyword is redundant, and should be deprecated as a keyword to free its use for other purposes.
 
 ## Proposed solution
 
@@ -37,17 +39,17 @@ This would be legal code:
 ```swift
 switch footballTeam.numberOfPlayersOnPitch {
 case 11:
-	print("enough players")
+  print("enough players")
 case 0..<10:
-	print("not enough players")
+  print("not enough players")
 else:
-	print("too many players")
+  print("too many players")
 }
 ```
 
 ## Impact on existing code
 
-As `default` would be deprecated, existing code would be broken and would not compile. However it seems that it should be straightforward to migrate existing code automatically, replacing 'default' with 'else' in switch statements.
+As `default` would be deprecated, existing code would be broken and would not compile. However it seems that it should be straightforward to migrate existing code automatically, replacing `default` with `else` in switch statements.
 
 ## Alternatives considered
 
