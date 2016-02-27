@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Deprecate the 'default' keyword, and replace it in switch statements with the 'else' keyword.
+Deprecate the `default` keyword, and replace it in switch statements with the 'else' keyword.
 
 Swift-evolution thread: [link to the discussion thread for that proposal](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160222/011237.html)
 
