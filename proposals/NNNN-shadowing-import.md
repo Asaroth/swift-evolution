@@ -11,7 +11,7 @@ Add an annotation that allows to "fix" interface of imported C functions:
 
 ```swift
 extension OS_dispatch_queue {
-    @shadowingImport(dispatch_sync(self, block))
+    @shadowingImportC(dispatch_sync(self, block))
     func sync(@noescape block: @convention(block) () -> Void)
 }
 ```
@@ -20,37 +20,20 @@ Swift-evolution thread: [link to the discussion thread for that proposal](https:
 
 ## Motivation
 
-Describe the problems that this proposal seeks to address. If the
-problem is that some common pattern is currently hard to express, show
-how one can currently get a similar effect and describe its
-drawbacks. If it's completely new functionality that cannot be
-emulated, motivate why this new functionality would help Swift
-developers create better Swift code.
+TODO
 
 ## Proposed solution
 
-Describe your solution to the problem. Provide examples and describe
-how they work. Show how your solution is better than current
-workarounds: is it cleaner, safer, or more efficient?
+TODO
 
 ## Detailed design
 
-Describe the design of the solution in detail. If it involves new
-syntax in the language, show the additions and changes to the Swift
-grammar. If it's a new API, show the full API and its documentation
-comments detailing what it does. The detail in this section should be
-sufficient for someone who is *not* one of the authors to be able to
-reasonably implement the feature.
+TODO
 
 ## Impact on existing code
 
-Describe the impact that this change will have on existing code. Will some
-Swift applications stop compiling due to this change? Will applications still
-compile but produce different behavior than they used to? Is it
-possible to migrate existing Swift code to use a new feature or API
-automatically?
+It is a strictly additive feature and will not break any existing code. 
 
 ## Alternatives considered
 
-Describe alternative approaches to addressing the same problem, and
-why you chose this approach instead.
+None currently.
