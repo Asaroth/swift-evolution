@@ -7,9 +7,14 @@
 
 ## Introduction
 
-A short description of what the feature is. Try to keep it to a
-single-paragraph "elevator pitch" so the reader understands what
-problem this proposal is addressing.  
+Add an annotation that allows to "fix" interface of imported C functions:
+
+```swift
+extension OS_dispatch_queue {
+    @shadowingImport(dispatch_sync(self, block))
+    func sync(@noescape block: @convention(block) () -> Void)
+}
+```
 
 Swift-evolution thread: [link to the discussion thread for that proposal](https://lists.swift.org/pipermail/swift-evolution)
 
