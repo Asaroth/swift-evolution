@@ -11,7 +11,7 @@ Proposal `0054` mentions @autounwrapped` attribute, but it is not actually allow
 This proposal adds it, so that the following code is valid:
 
 ```swift
-func toInt(string: String) -> @autounwrapped Int?
+func toInt(@autounwrapped string: String) -> @autounwrapped Int?
 @IBOutlet @autounwrapped weak let button: UIButton?
 ```
 
