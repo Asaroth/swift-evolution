@@ -95,17 +95,19 @@ These modifications can be combined, for example, removing IUO from a closure pa
 In places where such declaration is not visible, unmodified imported function is visible instead.
 Example:
 
-```swift
+```c
 // header.h
 char* strcat(char* dest, const char* src);
-
+```
+```swift
 // 1.swift
 @shadowing(strcat(left, right))
 private func +=(left: UnsafeMutablePointer<Int8>!, right: UnsafePointer<Int8>!) -> UnsafeMutablePointer<Int8>!
 
 strcat(dest, src)  // error
 dest += src        // ok
-
+```
+```swift
 // 2.swift
 strcat(dest, src)  // ok
 dest += src        // error
