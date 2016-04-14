@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Proposal `0054` mentions @autounwrapped` attribute, but it is not actually allowed for use in Swift.
+Proposal `0054` mentions `@autounwrapped` attribute, but it is not actually allowed for use in Swift.
 This proposal adds it, so that the following code is valid:
 
 ```swift
