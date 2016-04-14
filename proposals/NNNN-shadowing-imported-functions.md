@@ -14,7 +14,7 @@ The original function will no longer be accessible from Swift.
 // Imported function (implicit declaration)
 func dispatch_sync(queue: dispatch_queue_t, block: (@convention(block) () -> Void)!)
 
-@shadowing(dispatch_sync(self, block))
+@shadowing(dispatch_sync(queue, block))
 func sync(queue: dispatch_queue_t, @noescape block: @convention(block) () -> Void)
 ```
 
