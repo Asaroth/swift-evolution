@@ -37,9 +37,10 @@ So, there should be an easy way to add these small changes to the signature and 
 The only argument of `@shadowing` is call to an imported function, where arguments are internal parameters of the annotated function.
 
 All parameters must be used in that call.
-Order of parameters may not be equal in the two functions.
-Types must be the same, with a few exceptions described below.
 Return value of the function call in `@shadowing` is returned from the overriding function.
+Types must be the same, with a few exceptions described below.
+
+Function name, external parameter names and order of parameters may not be equal in the two functions.
 
 Examples:
 
