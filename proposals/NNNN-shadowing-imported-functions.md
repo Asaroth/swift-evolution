@@ -46,7 +46,7 @@ Examples:
 
 ```swift
 @shadowing(defineProperty(property, descriptor: descriptor))
-func defineProperty(property: String!, descriptor: AnyObject!)
+func defineProperty(descriptor: AnyObject!, forName property: String!)
 
 @shadowing(strcat(left, right))
 func +=(left: UnsafeMutablePointer<Int8>!, right: UnsafePointer<Int8>!) -> UnsafeMutablePointer<Int8>!
