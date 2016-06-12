@@ -71,7 +71,7 @@ print(convert(3.14) as Int)  //=> 3
 These requirements will usually not introduce any special cases in Swift compiler implementation.
 They follow from "instantiation of generic protocol becomes a rightful protocol".
 
-### Conflicting `associatedtype` requirement
+### Conflicting `associatedtype` requirements
 
 To conform to multiple instantiations of the same generic protocol,
 there must not be any conflicts in conforming type. In particular,
@@ -106,7 +106,8 @@ extension BadConverter : Converter<Double> {
 }
 ```
 
-In this example, there is no way `BadConverter` can conform to both `Converter<Int>` and `Converter<Double`, because it means conflict in `Result` associated type.
+In this example, there is no way `BadConverter` can conform to both `Converter<Int>` and `Converter<Double>`,
+because it means conflict in `associatedtype Result`.
 
 ### Pseudo-conflicting requirements
 
