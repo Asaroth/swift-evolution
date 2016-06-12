@@ -75,24 +75,38 @@ They follow from "instantiation of generic protocol becomes a rightful protocol"
 
 To conform to multiple instantiations of the same generic protocol,
 there must not be any conflicts in conforming type. In particular,
-`associatedtype` requirements cause conflicts in such cases,
-therefore their usage is not recommended in generic protocols.
+if the same `associatedtype` requirement becomes different for different conformances, we have a conflict.
 
 ```swift
-protocol From<T> {
-  init(_ from: T)
-  associatedtype Value = T  // bad idea
+protocol Converter<Input> {
+  associatedtype Result
+  func convert(x: Input) -> Result
 }
 
-extension Int : From<Double> { }
-extension Int : From<Int8> { }
-// Whoops, compilation error, ambiguous Value associatedtype
+struct GoodConverter {
+  func convert(x: Int) -> String
+  func convert(x: Double) -> String
+}
+extension GoodConverter : Converter<Int> {
+  associatedtype Result = String  // or it can be inferred
+}
+extension GoodConverter : Converter<Double> {
+  // associatedtype Result = String  // declarations must not be duplicated
+}
+
+struct BadConverter {
+  func convert(x: String) -> Int
+  func convert(x: String) -> Double
+}
+extension BadConverter : Converter<Int> {
+  associatedtype Result = Int  // cannot be inferred
+}
+extension BadConverter : Converter<Double> {
+  associatedtype Result = Double  // error: conflicting associatedtype!
+}
 ```
 
-Associated types in generic protocols will still be allowed,
-just usage of such protocols is naturally limited.
-
-By comparison, `Self` contains no such danger.
+In this example, there is no way `BadConverter` can conform to both `Converter<Int>` and `Converter<Double`, because it means conflict in `Result` associated type.
 
 ### Pseudo-conflicting requirements
 
