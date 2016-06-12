@@ -30,14 +30,14 @@ protocol From {
 }
 
 // multiple conformances are not allowed in Swift 2.2
-extension MyType : SequenceType {
-  associatedtype Iterator = MyIntIterator
+extension MyType : From {
+  associatedtype Value = Int
 }
-extension MyType : SequenceType {
-  associatedtype Iterator = MyDoubleIterator
+extension MyType : From {
+  associatedtype Value = Double
 }
 
-MyType.Iterator  // what should that even be?
+MyType.Value  // what should that even be?
 ```
 
 ## Proposed solution
