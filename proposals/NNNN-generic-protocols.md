@@ -64,7 +64,7 @@ print(convert(3.14) as Int)  //=> 3
 
 ### Generic manifesto
 
-In generic manifesto, generic protocols are marked as "unlikely". See **[Brent's counterarguments]**.
+In generic manifesto, generic protocols are marked as "unlikely". See **[Brent's counterarguments](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160606/020746.html)**.
 
 ## Detailed design
 
