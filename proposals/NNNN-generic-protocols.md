@@ -149,7 +149,7 @@ This is a strictly additive feature.
 
 ## Alternatives considered
 
-### Allow pseudo-generic syntax for protocols
+### Allow pseudo-generic syntax in extensions
 
 ```swift
 protocol From {
@@ -157,15 +157,16 @@ protocol From {
   init(_ from: Value)
 }
 
-extension Int : From<Value=Double> { }
-extension Int : From<Value=Int8> { }
+extension Int : From where Value = Double { }
+extension Int : From where Value = Int8 { }
 
 Int.Value  // still an ambiguity :(
 
-func convert1<T: From where From.Value == Double>(num: Double) -> T
+func convert1<T: From where T.Value == Double>(num: Double) -> T
 convert1(3.14) as Int
 
-func convert2<T: From>(num: From.Value) -> T  // still an ambiguity :(
+func convert2<T: From>(num: T.Value) -> T
+convert1(3.14) as Int  // still an ambiguity :(
 ```
 
 ## Future directions
