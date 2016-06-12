@@ -62,6 +62,10 @@ func convert<T: From<Double>>(num: Double) -> T {
 print(convert(3.14) as Int)  //=> 3
 ```
 
+### Generic manifesto
+
+In generic manifesto, generic protocols are marked as "unlikely". See **[Brent's counterarguments]**.
+
 ## Detailed design
 
 These requirements will usually not introduce any special cases in Swift compiler implementation.
