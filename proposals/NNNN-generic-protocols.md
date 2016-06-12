@@ -122,9 +122,24 @@ protocol MyComparable<T> {
   func < (left: Self, right: T)
 }
 extension MyComparable {
-  func > (left: T, right: Self) {
-    return right < left
-  }
+  func > (left: T, right: Self) { ... }
+}
+extension MyComparable where T: Equatable {
+  ...
+}
+```
+
+### Existential generic protocols
+
+If a generic protocol does not use `Self` and has no `associatedtype` requirements,
+then its instantiations can be used as existentials to line up with non-generic protocols:
+
+```swift
+protocol Into<T> {
+  func into() -> T
+}
+func convert(_ obj: Into<Double>) -> Double {
+  return obj.into()
 }
 ```
 
