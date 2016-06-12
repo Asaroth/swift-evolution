@@ -40,6 +40,10 @@ extension MyType : From {
 MyType.Value  // what should that even be?
 ```
 
+### Generic manifesto
+
+In generic manifesto, generic protocols are marked as "unlikely". See **[Brent's counterarguments](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160606/020746.html)**.
+
 ## Proposed solution
 
 Allow generic protocols.
@@ -61,10 +65,6 @@ func convert<T: From<Double>>(num: Double) -> T {
 }
 print(convert(3.14) as Int)  //=> 3
 ```
-
-### Generic manifesto
-
-In generic manifesto, generic protocols are marked as "unlikely". See **[Brent's counterarguments](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20160606/020746.html)**.
 
 ## Detailed design
 
