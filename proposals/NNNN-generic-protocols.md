@@ -164,11 +164,16 @@ protocol Upcastable<Supertype> {
 }
 ```
 
-The following axiom should hold for conforming types:
+The following axiom must hold for conforming types:
 
 ```swift
-Subtype.init(attemptingCastFrom: obj.casting() as Supertype)  ==  obj
+For all types Subtype: Upcastable<Supertype>
+For all variables x: Subtype
+Subtype.init(attemptingCastFrom: x.casting() as Supertype)  ==  .some(x)
 ```
+
+With this protocol, `x as? T` should use `T(attemptingCastFrom: x)` if corresponding `Upcastable` conformance exists.
+Likewise, `x as! T` should use `T(attemptingCastFrom: x)!`.
 
 ### Protocol for standard type conversions
 
