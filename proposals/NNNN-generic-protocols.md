@@ -1,0 +1,195 @@
+# Generic protocols
+
+* Proposal: [SE-NNNN](NNNN-filename.md)
+* Author: [Anton Zhilin](https://github.com/Anton3), [Brent Royal-Gordon](https://github.com/brentdax)
+* Status: **Awaiting review**
+* Review manager: TBD
+
+## Introduction
+
+In addition to protocols with associated types, allow generic protocols. Example:
+
+```swift
+protocol From<T> {
+  init(_ from: T)
+}
+```
+
+Swift-evolution thread: [Discussion thread topic for that proposal](http://news.gmane.org/gmane.comp.lang.swift.evolution)
+
+## Motivation
+
+It is currently not allowed to conform to multiple instances of the same protocol.
+One of the reasons behind that is that even with sufficient syntax, there would be
+conflicting instances of same `associatedtype` requirements:
+
+```swift
+protocol From {
+  associatedtype Value
+  init(_ from: Value)
+}
+
+// multiple conformances are not allowed in Swift 2.2
+extension MyType : SequenceType {
+  associatedtype Iterator = MyIntIterator
+}
+extension MyType : SequenceType {
+  associatedtype Iterator = MyDoubleIterator
+}
+
+MyType.Iterator  // what should that even be?
+```
+
+## Proposed solution
+
+Allow generic protocols.
+Usage of such protocol without generic parameter list is not allowed.
+Multiple instantiations of the same generic protocol are treated as unrelated protocols.
+
+### Example
+
+```swift
+protocol From<T> {
+  init(_ from: T)
+}
+
+extension Int : From<Double> { }
+extension Int : From<Int8> { }
+
+func convert<T: From<Double>>(num: Double) -> T {
+  return T(num)
+}
+print(convert(3.14) as Int)  //=> 3
+```
+
+## Detailed design
+
+These requirements will usually not introduce any special cases in Swift compiler implementation.
+They follow from "instantiation of generic protocol becomes a rightful protocol".
+
+### Conflicting `associatedtype` requirement
+
+To conform to multiple instantiations of the same generic protocol,
+there must not be any conflicts in conforming type. In particular,
+`associatedtype` requirements cause conflicts in such cases,
+therefore their usage is therefore not recommended in generic protocols.
+
+```swift
+protocol From<T> {
+  init(_ from: T)
+  associatedtype Value = T  // bad idea
+}
+
+extension Int : From<Double> { }
+extension Int : From<Int8> { }
+// Whoops, compilation error, ambiguous Value associatedtype
+```
+
+Associated types in generic protocols will still be allowed,
+just usage of such protocols is naturally limited.
+
+By comparison, `Self` contains no such danger.
+
+### Pseudo-conflicting requirements
+
+If generic type contains requirements that do not use generic parameter, they will be "merged" in conforming type:
+
+```swift
+protocol MyProtocol<T> {
+  func nonGeneric(num: Int) -> Int
+  func generic(left: T, right: T) -> T
+}
+
+struct MyStruct : MyProtocol<Int>, MyProtocol<Double> {
+  func nonGeneric(num: Int) -> Int
+  func generic(left: Int, right: Int) -> Int
+  func generic(left: Double, right: Double) -> Double
+}
+```
+
+We need to implement only one `nonGeneric` function to conform to both instantiations. Such functions must not be duplicated.
+
+### Clarification on "old" protocols
+
+With this proposal accepted, we will be able to define *new* protocols, to which we can conform multiple times.
+Old `associatedtype`-based protocols will not gain this ability.
+It will still be an error to conform to `SequenceType` multiple times with different `associatedtype`s.
+
+### Syntax in protocol extensions
+
+protocol MyComparable<T> {
+  func < (left: Self, right: T)
+}
+extension MyComparable {
+  func > (left: T, right: Self) {
+    return right < left
+  }
+}
+
+## Impact on existing code
+
+This is a strictly additive feature.
+
+## Alternatives considered
+
+### Allow pseudo-generic syntax for protocols
+
+```swift
+protocol From {
+  associatedtype Value
+  init(_ from: Value)
+}
+
+extension Int : From<Value=Double> { }
+extension Int : From<Value=Int8> { }
+
+Int.Value  // still an ambiguity :(
+
+func convert1<T: From where From.Value == Double>(num: Double) -> T
+convert1(3.14) as Int
+
+func convert2<T: From>(num: From.Value) -> T  // still an ambiguity :(
+```
+
+## Future directions
+
+### Protocol for usage in `as?` and `as!`
+
+```swift
+protocol Upcastable<Supertype> {
+	init?(attemptingCastFrom value: Supertype)
+	func casting() -> Supertype
+}
+```
+
+The following axiom should hold for conforming types:
+
+```swift
+Subtype.init(attemptingCastFrom: obj.casting() as Supertype)  ==  obj
+```
+
+### Protocol for standard type conversions
+
+Exact name is discussable, I'll follow Rust here.
+
+```swift
+protocol From<T> {
+  init(_ from: T)
+}
+
+This protocol can eliminate all standard Convertible-family protocols.
+
+It can also be used by `try` to automatically cast error types:
+
+```swift
+enum Error1 : ErrorType { ... }
+enum Error2 : ErrorType, From<Error1> { ... }
+
+func internal() -> Error1 { ... }
+
+func canThrow() -> Error2 {
+  ...
+  try internal()  // automatically uses From<Error1>
+  ...
+}
+```
