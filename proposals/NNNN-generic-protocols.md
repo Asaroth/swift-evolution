@@ -1,7 +1,7 @@
 # Generic protocols
 
 * Proposal: [SE-NNNN](NNNN-filename.md)
-* Author: [Anton Zhilin](https://github.com/Anton3), [Brent Royal-Gordon](https://github.com/brentdax)
+* Authors: [Anton Zhilin](https://github.com/Anton3), [Brent Royal-Gordon](https://github.com/brentdax)
 * Status: **Awaiting review**
 * Review manager: TBD
 
@@ -72,7 +72,7 @@ They follow from "instantiation of generic protocol becomes a rightful protocol"
 To conform to multiple instantiations of the same generic protocol,
 there must not be any conflicts in conforming type. In particular,
 `associatedtype` requirements cause conflicts in such cases,
-therefore their usage is therefore not recommended in generic protocols.
+therefore their usage is not recommended in generic protocols.
 
 ```swift
 protocol From<T> {
@@ -117,6 +117,7 @@ It will still be an error to conform to `SequenceType` multiple times with diffe
 
 ### Syntax in protocol extensions
 
+```swift
 protocol MyComparable<T> {
   func < (left: Self, right: T)
 }
@@ -125,6 +126,7 @@ extension MyComparable {
     return right < left
   }
 }
+```
 
 ## Impact on existing code
 
@@ -176,6 +178,7 @@ Exact name is discussable, I'll follow Rust here.
 protocol From<T> {
   init(_ from: T)
 }
+```
 
 This protocol can eliminate all standard Convertible-family protocols.
 
