@@ -1,4 +1,4 @@
-# Feature name
+# Fix `underestimateCount`
 
 * Proposal: [SE-NNNN](NNNN-filename.md)
 * Author: [Anton Zhilin](https://github.com/Anton3)
