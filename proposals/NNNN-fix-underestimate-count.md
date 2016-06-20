@@ -20,7 +20,7 @@ Swift-evolution thread: [Discussion thread topic for that proposal](http://news.
 
 If `sequence` is a `Collection`, but not a `RandomAccessCollection`, then computation of `sequence.count` can take O(n) time.
 That time can outweight benefits gained from preallocation of `Array` memory.
-For example, `LazyFilterCollection` implements `count` like this
+For example, `LazyFilterCollection` implements both `count` and `underestimatedCount` like this
 
 ```swift
 func count() -> Int {
@@ -28,7 +28,7 @@ func count() -> Int {
 }
 ```
 
-In other words, it strives to return actual count, even if it means calling `predicate` twice as much:
+In other words, it calls `predicate` twice as much:
 
 ```swift
 let filtered = Array((1...5).lazy.filter { num in print("Called"); return true })  // "Called" 10 times
