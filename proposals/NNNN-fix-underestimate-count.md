@@ -1,4 +1,4 @@
-# Fix `underestimateCount`
+# Fix `Collection` to `Array` conversion
 
 * Proposal: [SE-NNNN](NNNN-filename.md)
 * Author: [Anton Zhilin](https://github.com/Anton3)
@@ -7,7 +7,7 @@
 
 ## Introduction
 
-Require `underestimateCount` of `Sequence` to execute in `O(1)`, not `O(n)`.
+Make `Array.init(_:)` use `underestimatedCount` by default, and opt-in `count` for `Collection` types.
 
 Swift-evolution thread: [Discussion thread topic for that proposal](http://news.gmane.org/gmane.comp.lang.swift.evolution)
 
